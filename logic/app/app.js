@@ -1,96 +1,103 @@
 var app = angular.module('app', []);
 
 var appItemsController = app.controller('Items', function ($scope) {
-  var items = this;
+  var self = this;
 
+  // Restoring data from local storage
   var cachedData = localStorage.getItem('cachedItemsData')
   if (!cachedData) cachedData = {}
   else cachedData = JSON.parse(cachedData)
 
-  if (!items.data) items.data = {}
-  items.data.items = cachedData.items
-  items.data.selected = cachedData.selected
+  if (!self.data) self.data = {}
+  self.data.items = cachedData.items
+  self.data.selected = cachedData.selected
 
   // Ensure structure of data
-  if (!Array.isArray(items.data.items)) items.data.items = []
-  if (items.data.selected === undefined) items.data.selected = 0
+  if (!Array.isArray(self.data.items)) self.data.items = []
+  if (self.data.selected === undefined) self.data.selected = 0
 
-  items.addItem = function () {
-    if (!items.newItemText) return
+  // 
+  // API
+  // 
+  self.addItem = function () {
+    if (!self.newItemText) return
 
     var id = Date.now()
 
-    items.data.items.push({
+    self.data.items.push({
       id: id,
-      name: items.newItemText,
+      name: self.newItemText,
       comments: []
     })
 
-    items.newItemText = ''
+    self.newItemText = ''
 
     cache()
   }
 
-  items.addComment = function () {
-    if (!items.newCommentText) return
+  self.addComment = function () {
+    if (!self.newCommentText) return
 
     var id = Date.now()
 
-    var selectedItem = items.getSelectedItem()
+    var selectedItem = self.getSelectedItem()
     selectedItem.comments.push({
       id: id,
       avatarColor: getRandomColor(),
-      text: items.newCommentText
+      text: self.newCommentText
     })
 
-    items.newCommentText = ''
+    self.newCommentText = ''
 
     cache()
   }
 
-  items.trySubmitComment = function (event) {
+  self.trySubmitComment = function (event) {
     if (event.code == 'Enter' && !event.shiftKey) {
-      items.addComment()
+      self.addComment()
       event.stopPropagation()
       event.preventDefault()
     }
   }
 
-  items.select = function (id) {
-    items.data.selected = id
+  self.select = function (id) {
+    self.data.selected = id
 
     cache()
   }
 
-  items.delete = function (id) {
+  self.delete = function (id) {
     var itemIndex
-    for (var i = 0; i < items.data.items.length; i++) {
-      if (items.data.items[i].id == id) {
+    for (var i = 0; i < self.data.items.length; i++) {
+      if (self.data.items[i].id == id) {
         itemIndex = i
         break
       }
     }
 
-    if (id == items.data.selected) items.data.selected = ''
-    items.data.items.splice(i, 1)
+    if (id == self.data.selected) self.data.selected = ''
+    self.data.items.splice(i, 1)
 
     cache()
   }
 
-  items.getSelectedItem = function () {
-    var selectedItem = items.data.items.find(function (item) {
-      return item.id == items.data.selected
+  self.getSelectedItem = function () {
+    var selectedItem = self.data.items.find(function (item) {
+      return item.id == self.data.selected
     })
 
     return selectedItem
   }
 
-  items.getSelectedItemName = function () {
-    var selectedItem = items.getSelectedItem()
+  self.getSelectedItemName = function () {
+    var selectedItem = self.getSelectedItem()
     if (selectedItem) return selectedItem.name
     return ''
   }
 
+  // 
+  // Utils 
+  //
   function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
@@ -101,7 +108,7 @@ var appItemsController = app.controller('Items', function ($scope) {
   }
 
   function cache() {
-    cachedData = JSON.stringify(items.data)
+    cachedData = JSON.stringify(self.data)
     localStorage.setItem('cachedItemsData', cachedData)
   }
 })
