@@ -1,0 +1,256 @@
+/* Field */
+
+.field {
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    font-weight: 400;
+    font-size: .9em;
+    box-sizing: border-box;
+    padding: .5em 1em;
+    height: 2.2em;
+    outline: none;
+    transition: border 100ms;
+    margin: 0;
+    color: #565a69;
+}
+
+.field:focus {
+    border-color: #27ccc0;
+}
+
+
+/* Button */
+
+.button {
+    border: 0;
+    border-radius: 3px;
+    background: #27ccc0;
+    color: #fff;
+    font-weight: 600;
+    font-size: .9em;
+    box-sizing: border-box;
+    padding: .5em 1em;
+    height: 2.2em;
+    cursor: pointer;
+    transition-property: background, border-color;
+    transition-duration: 100ms;
+    outline: none;
+    margin: 0;
+    vertical-align: top;
+}
+
+.button:hover {
+    background: #2FD3C7;
+}
+
+.button:active {
+    background: #22B5AA;
+}
+
+.button--tertiary {
+    background: transparent;
+    border: 1px solid #ff3159;
+    color: #ff3159;
+    font-weight: 300;
+}
+
+.button--tertiary:hover {
+    background: transparent;
+    border-color: #E85D78;
+    color: #E85D78;
+}
+
+.button--tertiary:active {
+    background: transparent;
+    border-color: #DC193F;
+    color: #DC193F;
+}
+
+
+/* Label */
+
+.label {
+    border: 0;
+    border-radius: 30px;
+    background: #27ccc0;
+    color: #fff;
+    font-weight: 700;
+    font-size: .65em;
+    box-sizing: border-box;
+    padding: .25em .7em;
+}
+
+
+/* App */
+
+.app {
+    font-family: "Open Sans", "Arial", "Sans-Serif";
+    font-size: 18px;
+    font-weight: 300;
+    background: #f9f9f9;
+    min-height: 100vh;
+    overflow: auto;
+}
+
+.app__navigation {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 14em;
+}
+
+.app__content {
+    margin-left: 14em;
+}
+
+
+/* Navigation */
+
+.navigation {
+    background: #2B2F3E;
+    color: #fff;
+}
+
+.navigation__headline {
+    color: #565A69;
+    font-size: 2em;
+    padding: 1em;
+}
+
+.navigation__list {
+    list-style: none;
+    padding: 0;
+}
+
+.navigation__list-item {}
+
+.navigation__list-item a {
+    display: block;
+    text-decoration: none;
+    background: #ff2d5c;
+    background: linear-gradient(#ff2d5c, #ff404b);
+    color: #fff;
+    font-size: 1em;
+    padding: 1em 1.8em;
+}
+
+.navigation__list-item a:hover {
+    background: #ED325C;
+    background: linear-gradient(#F3305C, #E9414A);
+}
+
+.navigation__list-item a:active {
+    background: #ff404b;
+    background: linear-gradient(#ff404b, #ff2d5c);
+}
+
+
+/* Content */
+
+.content__section {
+    width: 50%;
+    display: block;
+    box-sizing: border-box;
+    float: left;
+}
+
+.content__section-group {
+    padding: 1em;
+}
+
+.content__section-group:after {
+    content: ".";
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+.content__add-field-wrapper {
+    overflow: hidden;
+}
+
+.content__add-field {
+    width: 100%;
+}
+
+.content__add-button {
+    float: right;
+    margin-left: 0.5em;
+}
+
+.content__items-list {
+    list-style: none;
+    padding: 0;
+}
+
+.content__items-list-item {
+    height: 2em;
+    vertical-align: middle;
+    padding: 0.4em 0em;
+    border-bottom: 1px solid #eee;
+    position: relative;
+}
+
+.content__item-title {
+    text-decoration: none;
+    height: 100%;
+    display: inline-block;
+}
+
+.content__item-title--selected:after, .content__item-title:hover:after {
+    content: "";
+    position: absolute;
+    left: -1.65em;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(#ff2d5c, #ff404b);
+}
+
+.content__item-title:hover:after {
+  opacity: 0.5;
+}
+
+.content__items-list-item:before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+
+.content__items-list-item span {
+    display: inline-block;
+}
+
+.content__item-name {
+    font-size: .9em;
+    font-weight: 600;
+    color: #2b2f3e;
+}
+
+.content__item-delete-button {
+    float: right;
+}
+
+
+/* Panel */
+
+.panel {
+    background: #fff;
+    margin: .5em;
+    border: 1px solid #f2f2f2;
+    box-shadow: 0px 0px .4em rgba(0, 0, 0, 0.50);
+}
+
+.panel__headline {
+    font-weight: 300;
+    font-size: 2em;
+    color: #565a69;
+}
+
+.panel__inner {
+    margin: 0 1.5em;
+}

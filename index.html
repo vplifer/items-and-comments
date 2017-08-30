@@ -1,92 +1,187 @@
 <!doctype html>
 
-<html>
+<html ng-app="app">
 
 <head>
 
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Items & Comments</title>
+    <title>Items & Comments</title>
 
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="128x128" href="favicon-128x128.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="favicon-128x128.png">
 
-  <!-- Loader spinner -->
-  <style>
-    .loader {
-      background: #fff;
+    <!-- Loader spinner -->
+    <style>
+        .loader {
+            background: #fff;
 
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-    }
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
 
-    .loader__spinner {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-    }
+            opacity: 1;
+            z-index: 99999;
+        }
 
-    .spinner {
-      background-color: #2B2F3E;
+        .loader--hidden {
+            opacity: 0;
+            transition: opacity 100ms;
+            pointer-events: none;
+        }
 
-      width: 40px;
-      height: 40px;
-      margin-left: -20px;
-      margin-top: -20px;
+        .loader__spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+        }
 
-      -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
-      animation: sk-rotateplane 1.2s infinite ease-in-out;
-    }
+        .spinner {
+            background-color: #2B2F3E;
 
-    @-webkit-keyframes sk-rotateplane {
-      0% {
-        -webkit-transform: perspective(120px)
-      }
-      50% {
-        -webkit-transform: perspective(120px) rotateY(180deg)
-      }
-      100% {
-        -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg)
-      }
-    }
+            width: 40px;
+            height: 40px;
+            margin-left: -20px;
+            margin-top: -20px;
 
-    @keyframes sk-rotateplane {
-      0% {
-        transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-        -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
-      }
-      50% {
-        transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-        -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
-      }
-      100% {
-        transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
-        -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
-      }
-    }
-  </style>
+            -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+            animation: sk-rotateplane 1.2s infinite ease-in-out;
+        }
 
-  <link rel="stylesheet" type="text/css" href="styles/style.css" />
+        @-webkit-keyframes sk-rotateplane {
+            0% {
+                -webkit-transform: perspective(120px)
+            }
+            50% {
+                -webkit-transform: perspective(120px) rotateY(180deg)
+            }
+            100% {
+                -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg)
+            }
+        }
+
+        @keyframes sk-rotateplane {
+            0% {
+                transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+                -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+            }
+            50% {
+                transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+                -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+            }
+            100% {
+                transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+                -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+            }
+        }
+    </style>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=cyrillic,cyrillic-ext,latin-ext"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="public/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="view/app/main.css" />
 
 </head>
 
-<body class="main-wrapper">
+<body>
+    <div class="loader" id="loader">
+        <div class="spinner loader__spinner"></div>
+    </div>
 
-  <div class="loader">
-    <div class="spinner loader__spinner"></div>
-  </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.js"></script>
 
-  <script>
-    (function () {
+    <div class="app">
+        <!-- Navigation -->
+        <div class="navigation app__navigation">
+            <div class="navigation__headline">
+                Main
+            </div>
+            <ul class="navigation__list">
+                <li class="navigation__list-item"><a href="#">Overview</a></li>
+            </ul>
+        </div>
 
-    })();
-  </script>
+        <!-- Content -->
+        <div class="content app__content clearfix">
+            <div class="content__section-group">
+
+                <!-- Items Section -->
+                <div class="content__section">
+                    <div class="panel content__items" ng-controller="Items as Items">
+                        <div class="panel__inner">
+                            <h2 class="panel__headline">Items</h2>
+                        </div>
+
+                        <div class="panel__inner">
+                            <div class="content__add-form">
+                                <form ng-submit="Items.addTodo()">
+                                    <button class="button button--primary content__add-button" type="submit">Add new</button>
+                                    <div class="content__add-field-wrapper">
+                                        <input class="field content__add-field" type="text" ng-model="Items.todoText" placeholder="Type name here...">
+                                    </div>
+                                </form>
+                            </div>
+
+                            <ul class="content__items-list">
+                                <li class="content__items-list-item" ng-repeat="item in Items.items">
+                                    <button class="button button--tertiary content__item-delete-button">Delete</button>
+                                    <a href="#" class="content__item-title content__item-title--selected">
+                                        <span class="content__item-name">{{item.title}}</span>
+                                        <span class="label content__item-label">{{item.commentsCount}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comments Section -->
+                <div class="content__section">
+                    <div class="panel content__comments">
+                        <div class="panel__inner">
+                            <h2 class="panel__headline">Comments</h2>
+                        </div>
+
+                        <div class="panel__inner">
+                            <div class="content__comment-form">
+                                <form ng-submit="Items.addTodo()">
+                                    <button class="button button--primary content__add-button" type="submit">Add new</button>
+                                    <div class="content__add-field-wrapper">
+                                        <input class="field content__add-field" type="text" ng-model="Items.todoText" placeholder="Type name here...">
+                                    </div>
+                                </form>
+                            </div>
+
+                            <ul class="content__items-list">
+                                <li class="content__items-list-item" ng-repeat="item in Items.items">
+                                    <button class="button button--tertiary content__item-delete-button">Delete</button>
+                                    <a href="#" class="content__item-title content__item-title--selected">
+                                        <span class="content__item-name">{{item.title}}</span>
+                                        <span class="label content__item-label">{{item.commentsCount}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global util to hide loader
+        function __hideLoader() {
+            document.getElementById('loader').classList.add('loader--hidden')
+        }
+    </script>
+
+    <script src="./logic/app/app.js"></script>
 
 </body>
 
