@@ -85,7 +85,6 @@
         rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="public/normalize.css" />
     <link rel="stylesheet" type="text/css" href="view/app/main.css" />
-
 </head>
 
 <body>
@@ -108,31 +107,31 @@
 
         <!-- Content -->
         <div class="content app__content clearfix">
-            <div class="content__section-group">
+            <div class="content__section-group" ng-controller="Items as Items">
 
                 <!-- Items Section -->
                 <div class="content__section">
-                    <div class="panel content__items" ng-controller="Items as Items">
+                    <div class="panel content__items">
                         <div class="panel__inner">
                             <h2 class="panel__headline">Items</h2>
                         </div>
 
                         <div class="panel__inner">
                             <div class="content__add-form">
-                                <form ng-submit="Items.addTodo()">
+                                <form ng-submit="Items.addItem()">
                                     <button class="button button--primary content__add-button" type="submit">Add new</button>
                                     <div class="content__add-field-wrapper">
-                                        <input class="field content__add-field" type="text" ng-model="Items.todoText" placeholder="Type name here...">
+                                        <input class="field content__add-field" type="text" ng-model="Items.newItemText" placeholder="Type name here...">
                                     </div>
                                 </form>
                             </div>
 
                             <ul class="content__items-list">
-                                <li class="content__items-list-item" ng-repeat="item in Items.items">
-                                    <button class="button button--tertiary content__item-delete-button">Delete</button>
-                                    <a href="#" class="content__item-title content__item-title--selected">
-                                        <span class="content__item-name">{{item.title}}</span>
-                                        <span class="label content__item-label">{{item.commentsCount}}</span>
+                                <li class="content__items-list-item" ng-repeat="item in Items.data.items track by item.id">
+                                    <button ng-click="Items.delete(item.id)" class="button button--tertiary content__item-delete-button">Delete</button>
+                                    <a href="#" ng-click="Items.select(item.id)" class="content__item-title " ng-class="{true: 'content__item-title--selected'}[item.id == Items.data.selected]">
+                                        <span class="content__item-name">{{item.name}}</span>
+                                        <span class="label content__item-label">{{item.comments.length}}</span>
                                     </a>
                                 </li>
                             </ul>
@@ -144,28 +143,23 @@
                 <div class="content__section">
                     <div class="panel content__comments">
                         <div class="panel__inner">
-                            <h2 class="panel__headline">Comments</h2>
+                            <h2 class="panel__headline">Comments {{Items.getSelectedItemName()}}</h2>
                         </div>
 
                         <div class="panel__inner">
+                            <ul class="content__items-list">
+                                <li class="content__items-list-item" ng-repeat="comment in Items.getSelectedItem().comments">
+                                    {{comment.text}}
+                                </li>
+                            </ul>
+
                             <div class="content__comment-form">
                                 <form ng-submit="Items.addTodo()">
-                                    <button class="button button--primary content__add-button" type="submit">Add new</button>
                                     <div class="content__add-field-wrapper">
                                         <input class="field content__add-field" type="text" ng-model="Items.todoText" placeholder="Type name here...">
                                     </div>
                                 </form>
                             </div>
-
-                            <ul class="content__items-list">
-                                <li class="content__items-list-item" ng-repeat="item in Items.items">
-                                    <button class="button button--tertiary content__item-delete-button">Delete</button>
-                                    <a href="#" class="content__item-title content__item-title--selected">
-                                        <span class="content__item-name">{{item.title}}</span>
-                                        <span class="label content__item-label">{{item.commentsCount}}</span>
-                                    </a>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>

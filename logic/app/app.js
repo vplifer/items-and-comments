@@ -1,55 +1,79 @@
-angular.module('app', [])
-  .controller('Items', function ($scope) {
-    $scope.items = [
-      {
-        title: "some"
+var app = angular.module('app', []);
+
+var appItemsController = app.controller('Items', function ($scope) {
+  var items = this;
+
+  var cachedData = localStorage.getItem('cachedItemsData')
+  if (!cachedData) cachedData = {}
+  else cachedData = JSON.parse(cachedData)
+
+  if (!items.data) items.data = {}
+  items.data.items = cachedData.items
+  items.data.selected = cachedData.selected
+
+  // Ensure structure of data
+  if (!Array.isArray(items.data.items)) items.data.items = []
+  if (items.data.selected === undefined) items.data.selected = 0
+
+  items.addItem = function () {
+    if (!items.newItemText) return
+
+    var id = Date.now()
+
+    console.log(items.data.items)
+
+    items.data.items.push({
+      id: id,
+      name: items.newItemText,
+      comments: [{
+        avatarColor: '#444',
+        text: 'hello'
+      }]
+    })
+
+    items.newItemText = ''
+
+    cache()
+  }
+
+  items.select = function (id) {
+    items.data.selected = id
+
+    cache()
+  }
+
+  items.delete = function (id) {
+    var itemIndex
+    for (var i = 0; i < items.data.items.length; i++) {
+      if (items.data.items[i].id == id) {
+        itemIndex = i
+        break
       }
-    ]
+    }
 
-    var items = this;
+    items.data.items.splice(i, 1)
 
-    items.items = [
-      {
-        title: "some",
-        commentsCount: 10
-      },
-      {
-        title: "some",
-        commentsCount: 10
-      }
-      , {
-        title: "some",
-        commentsCount: 10
-      }
-    ]
+    cache()
+  }
 
-    items.todos = [
-      { text: 'learn AngularJS', done: true },
-      { text: 'build an AngularJS app', done: false }];
+  items.getSelectedItem = function () {
+    var selectedItem = items.data.items.find(function (item) {
+      return item.id == items.data.selected
+    })
 
-    items.addTodo = function () {
-      items.todos.push({ text: items.todoText, done: false });
-      items.todoText = '';
-    };
+    return selectedItem
+  }
 
-    items.remaining = function () {
-      var count = 0;
-      angular.forEach(items.todos, function (todo) {
-        count += todo.done ? 0 : 1;
-      });
-      return count;
-    };
+  items.getSelectedItemName = function () {
+    var selectedItem = items.getSelectedItem()
+    if (selectedItem) return selectedItem.name
+    return ''
+  }
 
-    items.archive = function () {
-      var oldTodos = items.todos;
-      items.todos = [];
-      angular.forEach(oldTodos, function (todo) {
-        if (!todo.done) items.todos.push(todo);
-      });
-    };
-  })
-  .controller('comments', function () {
-
-  });
+  function cache() {
+    cachedData = JSON.stringify(items.data)
+    localStorage.setItem('cachedItemsData', cachedData)
+  }
+})
 
 __hideLoader();
