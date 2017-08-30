@@ -20,20 +20,40 @@ var appItemsController = app.controller('Items', function ($scope) {
 
     var id = Date.now()
 
-    console.log(items.data.items)
-
     items.data.items.push({
       id: id,
       name: items.newItemText,
-      comments: [{
-        avatarColor: '#444',
-        text: 'hello'
-      }]
+      comments: []
     })
 
     items.newItemText = ''
 
     cache()
+  }
+
+  items.addComment = function () {
+    if (!items.newCommentText) return
+
+    var id = Date.now()
+
+    var selectedItem = items.getSelectedItem()
+    selectedItem.comments.push({
+      id: id,
+      avatarColor: getRandomColor(),
+      text: items.newCommentText
+    })
+
+    items.newCommentText = ''
+
+    cache()
+  }
+
+  items.trySubmitComment = function (event) {
+    if (event.code == 'Enter' && !event.shiftKey) {
+      items.addComment()
+      event.stopPropagation()
+      event.preventDefault()
+    }
   }
 
   items.select = function (id) {
@@ -51,6 +71,7 @@ var appItemsController = app.controller('Items', function ($scope) {
       }
     }
 
+    if (id == items.data.selected) items.data.selected = ''
     items.data.items.splice(i, 1)
 
     cache()
@@ -68,6 +89,15 @@ var appItemsController = app.controller('Items', function ($scope) {
     var selectedItem = items.getSelectedItem()
     if (selectedItem) return selectedItem.name
     return ''
+  }
+
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 
   function cache() {

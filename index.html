@@ -140,23 +140,36 @@
                 </div>
 
                 <!-- Comments Section -->
-                <div class="content__section">
+                <div class="content__section" ng-if="Items.data.selected != ''">
                     <div class="panel content__comments">
                         <div class="panel__inner">
-                            <h2 class="panel__headline">Comments {{Items.getSelectedItemName()}}</h2>
+                            <h2 class="panel__headline">Comments {{(Items.data.selected != '') ? '#' : ''}}{{Items.getSelectedItemName()}}</h2>
                         </div>
 
                         <div class="panel__inner">
-                            <ul class="content__items-list">
-                                <li class="content__items-list-item" ng-repeat="comment in Items.getSelectedItem().comments">
-                                    {{comment.text}}
+                            <ul class="content__comment-list">
+                                <li class="content__comment-list-item" ng-repeat="comment in Items.getSelectedItem().comments track by comment.id">
+                                    <div class="comment content_comment-block">
+                                        <div class="comment__image">
+                                            <div class="comment__image-picture" ng-style="{backgroundColor: comment.avatarColor}"></div>
+                                        </div>
+                                        <div class="comment__text">
+                                            {{comment.text}}
+                                        </div>
+                                    </div>
                                 </li>
                             </ul>
 
-                            <div class="content__comment-form">
-                                <form ng-submit="Items.addTodo()">
-                                    <div class="content__add-field-wrapper">
-                                        <input class="field content__add-field" type="text" ng-model="Items.todoText" placeholder="Type name here...">
+                            <div class="comment content__comment-block">
+                                <form ng-submit="Items.addComment()">
+                                    <div class="comment__image">
+                                        <div class="comment__image-picture"></div>
+                                    </div>
+                                    <div class="comment__text">
+                                        <div class="content__add-field-wrapper">
+                                            <textarea ng-keypress="Items.trySubmitComment($event)" class="field comment-textarea" type="text" ng-model="Items.newCommentText"
+                                                placeholder="Enter comment..."></textarea>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
